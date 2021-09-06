@@ -20,9 +20,9 @@
   - Click 'Manage Domain' next to your domain name, and click Management Tools and select Nameservers
   - Click 'Use custom nameservers' radio button
   - Replace the content there with the items you got from Route 53 (one per line)
-   ![2](https://user-images.githubusercontent.com/47898882/132263392-04fcf914-acf0-425b-8d2d-5647c8e07f60.JPG)
-   
-   ![{34F81419-3828-43E0-83FC-09DCE1246566} png](https://user-images.githubusercontent.com/76074379/123254328-625dbc00-d4a3-11eb-97fe-1e4d9868c831.jpg)
+![2](https://user-images.githubusercontent.com/47898882/132263392-04fcf914-acf0-425b-8d2d-5647c8e07f60.JPG)
+![3](https://user-images.githubusercontent.com/47898882/132263394-606cdaa2-b39a-438b-adb2-5971eb340d13.JPG)
+
    
 - Ensure to tag all resources you create (Project, Environment, Name etc)
 
