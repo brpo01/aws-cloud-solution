@@ -6,7 +6,7 @@
   - Click 'Add an AWS account' and create a new AWS account from there with name as Dev
   - Invite another AWS account( You can open a totally new AWS account for this)
   - Login and accept the invitation in the new AWS account
-    ![Inked{285E6809-6CE8-44C2-A935-1BC4DD4D2ADE} png_LI](https://user-images.githubusercontent.com/76074379/123252997-c7181700-d4a1-11eb-9534-a58fc329b71d.jpg)
+    ![1](https://user-images.githubusercontent.com/47898882/132263388-5cda326b-452e-44e4-9c3f-dfc651ec410e.JPG)
     
 - Create a free domain name from http://www.freenom.com
 - Create a hosted zone in AWS Route 53
