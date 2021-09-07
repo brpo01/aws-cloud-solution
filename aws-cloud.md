@@ -362,7 +362,7 @@ Repeat above steps for Wordpress
 - Under Add subnets, select the two AZs your data layer subnets are in and select the two private data layer subnets.
 - Click Create
 
-![{6EC64FA0-C2DE-4151-B20A-85C17AD0D0EC} png](https://user-images.githubusercontent.com/76074379/124367227-2ac0e380-dc0a-11eb-9369-db42e2452b4d.jpg)
+![15](https://user-images.githubusercontent.com/47898882/132412806-e096c986-792e-4f66-8708-a3b1d18ee1ca.JPG)
 
 ### Step 5.3: Create RDS Instance
 - Navigate to RDS Management Console
