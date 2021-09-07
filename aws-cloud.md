@@ -137,7 +137,6 @@
   - For health checks, select HTTP(port 80) and health check path as /healthstatus
   - Add Tags
   - Register Nginx instances as targets
- Note: In order to avoid confusion to a newbie. I will opt to ceate an Application Load Balancer and configure rather than try to create an HTTPS Target Group straight away. Reason for this will be clear as one develop familiarity with the project.
  
 - Configure Application Load Balancer (ALB) for Nginx
   
@@ -283,27 +282,7 @@ We have to create two launch templates for Wordpress and Tooling respectively.
     setenforce 0
     systemctl restart httpd
     ```
-    Repeat the above steps for Tooling Webserver. Check user data for Tooling Webserver below:
-    ```
-    #!/bin/bash
-    yum update -y
-    yum install -y httpd
-    systemctl start httpd
-    systemctl enable httpd
-    touch /var/www/html/healthstatus
-    echo "tooling from $(hostname)" >> /var/www/html/healthstatus
-    yum install -y git
-    yum install -y mysql
-    yum install -y php php-{mysqlnd,cli,gd,common,mbstring,fpm,json}
-    yum install -y rpm-build
-    git clone https://github.com/aws/efs-utils
-    cd /efs-utils
-    yum -y install make
-    make rpm
-    yum install -y ./build/amazon-efs-utils*rpm
-    setenforce 0
-    systemctl restart httpd
-    ```
+- Repeat the above steps for Tooling Webserver. Check user data for Tooling Webserver below:
     
 - Configure Target Groups
   
