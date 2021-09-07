@@ -282,7 +282,7 @@ We have to create two launch templates for Wordpress and Tooling respectively.
     setenforce 0
     systemctl restart httpd
     ```
-- Repeat the above steps for Tooling Webserver. Check user data for Tooling Webserver below:
+- Repeat the above steps for Tooling Webserver.
     
 - Configure Target Groups
   
@@ -309,8 +309,7 @@ Repeat above steps for Wordpress
   - Configure routing, select the Tooling target group
   - Register targets (unnecessary if you configured your target group correctly)
   - Click Review and complete the process
-  
-    Repeat the above steps for the Wordpress ALB
+  - Repeat the above steps for the Wordpress ALB
 
 - Configure Autoscaling for Webservers(Tooling and Wordpress)
 
@@ -336,10 +335,10 @@ Repeat above steps for Wordpress
 - Select the VPC you created, select the two AZs and choose the private subnets
 - Select the EFS security group for each AZ
 - Click next, next then create
-![{2BB96602-1248-44A3-89EE-D9B1FCB9A133} png](https://user-images.githubusercontent.com/76074379/124367062-03b5e200-dc09-11eb-916f-9978210ffe11.jpg)
+![13](https://user-images.githubusercontent.com/47898882/132412797-a9291463-1188-45b9-845d-8525e9f88f58.JPG)
 
 - Create an EFS access point. (Give it a name and leave all other settings as default)
-![{523EE8BA-BB52-44BE-9025-9998569A9095} png](https://user-images.githubusercontent.com/76074379/124367141-8d65af80-dc09-11eb-9dd4-b1a59efe8eec.jpg)
+![14](https://user-images.githubusercontent.com/47898882/132412805-42dc90b3-0d13-48fa-91a8-357396079bf0.JPG)
 
 ## Step 5: Setup RDS
 ### Step 5.1: Create a KMS key
@@ -420,19 +419,3 @@ Repeat above steps for Wordpress
 
 ![{DC558EFC-2080-480A-AD2D-F60E0DDAA084} png](https://user-images.githubusercontent.com/76074379/124367332-1d582900-dc0b-11eb-8d9a-0cdad5d4491a.jpg)
 
-![{E0B9ED33-9FC3-4DED-8AEB-6C04FB4E3C92} png](https://user-images.githubusercontent.com/76074379/124367362-52647b80-dc0b-11eb-818f-b52dce6bfa1a.jpg)
-
-![{BE97DCE5-9775-4C05-9721-E313A6CB7433} png](https://user-images.githubusercontent.com/76074379/124367368-57292f80-dc0b-11eb-8748-d962b0a489b5.jpg)
-
-# Blockers
-
-- I had to install mod_ssl module manually on the apache webservers after because the error logs indicated it was missing. After installing the module on my webservers, my target webserver instances on passed the healthcheck on port 443(HTTPS). For more on mod_ssl, https://en.wikipedia.org/wiki/Mod_ssl. I ran the following commands:
-```
-sudo dnf install -y mod_ssl
-
-apachectl -M | grep ssl
-
-sudo systemctl restart httpd
-```
-
-- I was getting a 502 Bad Gateway error, to solve this, I checked the logs for my nginx instance (I had to SSH into it) and noticed it was returning a permission denied error, so I disabled SELinux in by opening /etc/sysconfig/selinux and setting the SELinux to disabled. I also disabled SElinux on the web servers.
