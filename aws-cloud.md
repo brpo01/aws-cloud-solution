@@ -86,12 +86,7 @@
   - Application Load Balancer: ALB should be open to the internet
   - Webservers: Webservers should only be accessible from the Nginx servers
   - Data Layer: This comprises the RDS and EFS servers. Access to RDS should only be from Webservers, while Nginx and Webservers can have access to EFS
- 
- ![{B4BB3DEE-B49F-4D1B-A1D6-C197EBA1E403} png](https://user-images.githubusercontent.com/76074379/124334344-a7d95380-db4b-11eb-8b62-fa22e30ca035.jpg)
-![{30A6CA71-1FE8-49FC-B53E-41A5F08C9CE4} png](https://user-images.githubusercontent.com/76074379/124334346-a90a8080-db4b-11eb-9b05-3c5a2e75668f.jpg)
-![{DC07A949-E80A-4A0F-99E3-62844788312B} png](https://user-images.githubusercontent.com/76074379/124334350-a9a31700-db4b-11eb-87c4-3b27d1a8c2fb.jpg)
-![{3F0F6E04-9341-41B6-8689-5A0C9B12E2F5} png](https://user-images.githubusercontent.com/76074379/124334352-a9a31700-db4b-11eb-81af-6b1568130fa0.jpg)
-![{844AC8F2-4655-4DA1-A255-D659BCE1F23C} png](https://user-images.githubusercontent.com/76074379/124334377-bd4e7d80-db4b-11eb-920f-c4f71bfa1a8e.jpg)
+ ![12](https://user-images.githubusercontent.com/47898882/132406934-14310f3d-d304-46e7-aa6a-00372c489f1a.JPG)
 
 ## Step 3: Proceed with Compute Resources
 
