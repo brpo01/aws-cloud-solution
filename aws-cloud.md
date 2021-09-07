@@ -66,19 +66,19 @@
   ![8](https://user-images.githubusercontent.com/47898882/132406139-57a63672-a49c-4d4e-bc4b-c29074853382.JPG)
   
 - Create an Internet Gateway, select it and click Actions the click Attach to VPC and attach it to the VPC you created
-![{8CC4661F-BB81-4268-8AB0-1D11B8298D63} png](https://user-images.githubusercontent.com/76074379/123256553-f2046a00-d4a5-11eb-8d90-70d13f9a3c9e.jpg)
+![9](https://user-images.githubusercontent.com/47898882/132406140-90dffb16-b024-4550-8988-23fa783f225c.JPG)
 
 - Add a new route to your public subnet route table
   - Select the route table, click Actions and 'Edit routes'
   - For destination, enter 0.0.0.0/0
   - For target, select Internet Gateway and click the Internet Gateway you created
   - Click Save
-  ![9](https://user-images.githubusercontent.com/47898882/132406140-90dffb16-b024-4550-8988-23fa783f225c.JPG)
+  ![10](https://user-images.githubusercontent.com/47898882/132406923-f919f4ae-f07d-4c7a-8fcf-420341828d53.JPG)
   
 - Create a NAT Gateway for your private subnets
 - Allocate three Elastic IPs and associate one of them to the NAT Gateway(the other two are for the Bastion Servers)
 - Add a new route to your private route table with destination as 0.0.0.0/0 and target as the NAT Gateway you created
-![{CEA496E8-669A-4F44-8EB0-5D38E67156F6} png](https://user-images.githubusercontent.com/76074379/123258549-59bbb480-d4a8-11eb-9279-32786ead4b46.jpg)
+![11](https://user-images.githubusercontent.com/47898882/132406931-1cad9ba4-7719-466e-9357-799e13c59141.JPG)
 
 - Create a security group for:
   - Nginx servers: Access to nginx servers should only be from the Application Load Balancer
