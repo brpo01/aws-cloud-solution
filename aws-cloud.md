@@ -73,7 +73,7 @@
   - For destination, enter 0.0.0.0/0
   - For target, select Internet Gateway and click the Internet Gateway you created
   - Click Save
-  ![{F1C4C675-ABA8-4CB8-A892-E42F79E51C44} png](https://user-images.githubusercontent.com/76074379/123258374-25e08f00-d4a8-11eb-8259-01cbc9c060e1.jpg)
+  ![9](https://user-images.githubusercontent.com/47898882/132406140-90dffb16-b024-4550-8988-23fa783f225c.JPG)
   
 - Create a NAT Gateway for your private subnets
 - Allocate three Elastic IPs and associate one of them to the NAT Gateway(the other two are for the Bastion Servers)
