@@ -385,6 +385,8 @@ Repeat above steps for Wordpress
 - Create a CNAME record that points www.domain.com to the DNS name of your NGINX load balancer
 - Create a CNAME record that points tooling.domain.com to the DNS name of your NGINX load balancer
 
+![16](https://user-images.githubusercontent.com/47898882/132913054-1061b27c-1d27-482a-9e42-bb39fbb038bb.JPG)
+
 ### Step 6.1
 - Create two configuration files (one for tooling, one for wordpress) for the nginx load balancer and add to a github repo so you can pull the config during a scale out
 - The tooling config file should contain the following settings: 
