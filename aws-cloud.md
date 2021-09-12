@@ -382,8 +382,8 @@ Repeat above steps for Wordpress
 ![{1D2C2675-1F4A-4E2C-8FF9-ED89510F0C23} png](https://user-images.githubusercontent.com/76074379/124367257-72476f80-dc0a-11eb-9ce7-c0625f28019a.jpg)
 
 ## Step 6: Configure DNS with Route 53
-- Create a CNAME record that points www.domain.com to the DNS name of your NGINX load balancer
-- Create a CNAME record that points tooling.domain.com to the DNS name of your NGINX load balancer
+- Create a CNAME record that points www.domain-name.com to the DNS name of your NGINX load balancer
+- Create a CNAME record that points tooling.domain-name.com to the DNS name of your NGINX load balancer
 
 ![16](https://user-images.githubusercontent.com/47898882/132913054-1061b27c-1d27-482a-9e42-bb39fbb038bb.JPG)
 
