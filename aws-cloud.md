@@ -366,12 +366,6 @@ We have to create two launch templates for Wordpress and Tooling respectively.
   - Add Tags
   - Register Tooling instance as target
 
-Repeat above steps for Wordpress
-
-- Configure ALB for Webservers
-
-  The ALB for the webservers should not be internet facing. And we'll need two ALBs, one for Tooling and Wordpress
-
 - Create an internal ALB
 
   - From the EC2 Console, click Load Balancers.
