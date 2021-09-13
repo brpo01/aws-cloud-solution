@@ -124,6 +124,20 @@
 
     sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
     ```
+  - Install amazon efs utils for mounting target on the elastic file system
+    ```
+    git clone https://github.com/aws/efs-utils
+
+    cd efs-utils
+
+    yum install -y make
+
+    yum install -y rpm-build
+
+    make rpm 
+
+    yum install -y  ./build/amazon-efs-utils*rpm
+    ```
 - Create an AMI from the instance
   - Right click on the instance
   - Select Image and click Create Image
