@@ -84,9 +84,70 @@
   - Data Layer: This comprises the RDS and EFS servers. Access to RDS should only be from Webservers, while Nginx and Webservers can have access to EFS
     ![12](https://user-images.githubusercontent.com/47898882/132406934-14310f3d-d304-46e7-aa6a-00372c489f1a.JPG)
 
-## Step 3: Proceed with Compute Resources
+## Step 3: Setup EFS
 
-### Step 3.1: Setup Compute Resources for Nginx
+- Navigate to EFS from your Management Console
+- Click create file system from the right
+- Click Customize
+- Enter the name for the EFS
+- Tag the resource
+- Leave everything else and click next
+- Select the VPC you created, select the two AZs and choose the private subnets
+- Select the EFS security group for each AZ
+- Click next, next then create
+  ![13](https://user-images.githubusercontent.com/47898882/132412797-a9291463-1188-45b9-845d-8525e9f88f58.JPG)
+
+- Create an EFS access point. (Give it a name and leave all other settings as default)
+  ![14](https://user-images.githubusercontent.com/47898882/132412805-42dc90b3-0d13-48fa-91a8-357396079bf0.JPG)
+
+## Step 4: Setup RDS
+
+### Step 4.1: Create a KMS key
+
+- Navigate to AWS KMS
+- Click create key
+- Make sure it's symmetric
+- Give the key an alias
+- For 'Define Key admininstrative privileges', select AWSServiceRoleForRDS and rdsMonitoringRole
+
+![{AB88012C-7F94-4616-89DE-BDB4C40B2F74} png](https://user-images.githubusercontent.com/76074379/124367186-e6cdde80-dc09-11eb-9ed9-c6e4619c4899.jpg)
+
+- Select the same thing for Key usage
+- Click Finish
+
+### Step 4.2: Create a DB Subnet Group
+
+- Navigate to RDS Management Console
+- Click the three horizontal lines on the top left
+- Select Subnet groups
+- Click Create DB subnet group
+- Enter the name, description and select your VPC
+- Under Add subnets, select the two AZs your data layer subnets are in and select the two private data layer subnets.
+- Click Create
+
+![15](https://user-images.githubusercontent.com/47898882/132412806-e096c986-792e-4f66-8708-a3b1d18ee1ca.JPG)
+
+### Step 4.3: Create RDS Instance
+
+- Navigate to RDS Management Console
+- Click Create database
+- For Engine options, select MySQL
+- For Template, choose Dev/Test
+- Enter a name for your DB under DB instance identifier
+- Enter Master username and passsword
+- Choose the smallest possible instance class (to reduce costs)
+- Under Availability, select do not create a standby instance
+- Select your VPC, select the subnet group you created and also the data layer security group
+- Leave everything else and scroll down to Additional configuration
+- Enter initial database name (but i'll personally recommend you connect to it from your webservers and create required databases)
+- Leave everything else, scroll down to Encryption and select the KMS key you created
+- Scroll down and click Create database
+
+![{1D2C2675-1F4A-4E2C-8FF9-ED89510F0C23} png](https://user-images.githubusercontent.com/76074379/124367257-72476f80-dc0a-11eb-9ce7-c0625f28019a.jpg)
+
+## Step 5: Proceed with Compute Resources
+
+### Step 5.1: Setup Compute Resources for Nginx
 
 - Provision EC2 Instances for Nginx
 
@@ -208,7 +269,7 @@
   - Click Next and add Notifications, create a new SNS topic and enter your email under 'With these recipients'
   - Add Tags
 
-### Step 3.2: Setup Compute Resources for Bastion
+### Step 5.2: Setup Compute Resources for Bastion
 
 - Provision EC2 Instances for Bastion server
 
@@ -257,7 +318,7 @@
   - Click Next and add Notifications, create a new SNS topic and enter your email under 'With these recipients'
   - Add Tags
 
-### Step 3.3: Setup Compute Resources for Webservers (Wordpress & Tooling)
+### Step 5.3: Setup Compute Resources for Webservers (Wordpress & Tooling)
 
 We have to create two launch templates for Wordpress and Tooling respectively.
 
@@ -333,30 +394,6 @@ We have to create two launch templates for Wordpress and Tooling respectively.
     chcon -t httpd_sys_rw_content_t /var/www/html/ -R
     systemctl restart httpd
     ```
-  - Repeat the above steps for Tooling Webserver & use the user data script below for the launch template of the tooling server.
-    ```
-    #!/bin/bash
-    mkdir /var/www/
-    sudo mount -t efs -o tls,accesspoint=fsap-01c13a4019ca59dbe fs-8b501d3f:/ /var/www/
-    yum install -y httpd 
-    systemctl start httpd
-    systemctl enable httpd
-    yum module reset php -y
-    yum module enable php:remi-7.4 -y
-    yum install -y php php-common php-mbstring php-opcache php-intl php-xml php-gd php-curl php-mysqlnd php-fpm php-json
-    systemctl start php-fpm
-    systemctl enable php-fpm
-    git clone https://github.com/Livingstone95/tooling-1.git
-    mkdir /var/www/html
-    cp -R /tooling-1/html/*  /var/www/html/
-    cd /tooling-1
-    mysql -h acs-database.cdqpbjkethv0.us-east-1.rds.amazonaws.com -u ACSadmin -p toolingdb < tooling-db.sql
-    cd /var/www/html/
-    touch healthstatus
-    sed -i "s/$db = mysqli_connect('mysql.tooling.svc.cluster.local', 'admin', 'admin', 'tooling');/$db = mysqli_connect('acs-database.cdqpbjkethv0.us-east-1.rds.amazonaws.com ', 'ACSadmin', 'admin12345', 'toolingdb');/g" functions.php
-    chcon -t httpd_sys_rw_content_t /var/www/html/ -R
-    systemctl restart httpd
-    ```
 - Configure Target Groups
 
   - Select instances as target type
@@ -380,8 +417,6 @@ We have to create two launch templates for Wordpress and Tooling respectively.
 
 - Configure Autoscaling for Webservers(Tooling and Wordpress)
 
-  For Tooling
-
   - Enter the name
   - Select the appropriate launch template, click Next
   - Select the VPC and select the two public subnets you created, click Next
@@ -390,107 +425,18 @@ We have to create two launch templates for Wordpress and Tooling respectively.
   - For Scaling policies, select Target Tracking scaling policy and set the target value as 90
   - Click Next and add Notifications, create a new SNS topic and enter your email under 'With these recipients'
   - Add Tags
-    Repeat the above steps for Wordpress
+  
 
-## Step 4: Setup EFS
-
-- Navigate to EFS from your Management Console
-- Click create file system from the right
-- Click Customize
-- Enter the name for the EFS
-- Tag the resource
-- Leave everything else and click next
-- Select the VPC you created, select the two AZs and choose the private subnets
-- Select the EFS security group for each AZ
-- Click next, next then create
-  ![13](https://user-images.githubusercontent.com/47898882/132412797-a9291463-1188-45b9-845d-8525e9f88f58.JPG)
-
-- Create an EFS access point. (Give it a name and leave all other settings as default)
-  ![14](https://user-images.githubusercontent.com/47898882/132412805-42dc90b3-0d13-48fa-91a8-357396079bf0.JPG)
-
-## Step 5: Setup RDS
-
-### Step 5.1: Create a KMS key
-
-- Navigate to AWS KMS
-- Click create key
-- Make sure it's symmetric
-- Give the key an alias
-- For 'Define Key admininstrative privileges', select AWSServiceRoleForRDS and rdsMonitoringRole
-
-![{AB88012C-7F94-4616-89DE-BDB4C40B2F74} png](https://user-images.githubusercontent.com/76074379/124367186-e6cdde80-dc09-11eb-9ed9-c6e4619c4899.jpg)
-
-- Select the same thing for Key usage
-- Click Finish
-
-### Step 5.2: Create a DB Subnet Group
-
-- Navigate to RDS Management Console
-- Click the three horizontal lines on the top left
-- Select Subnet groups
-- Click Create DB subnet group
-- Enter the name, description and select your VPC
-- Under Add subnets, select the two AZs your data layer subnets are in and select the two private data layer subnets.
-- Click Create
-
-![15](https://user-images.githubusercontent.com/47898882/132412806-e096c986-792e-4f66-8708-a3b1d18ee1ca.JPG)
-
-### Step 5.3: Create RDS Instance
-
-- Navigate to RDS Management Console
-- Click Create database
-- For Engine options, select MySQL
-- For Template, choose Dev/Test
-- Enter a name for your DB under DB instance identifier
-- Enter Master username and passsword
-- Choose the smallest possible instance class (to reduce costs)
-- Under Availability, select do not create a standby instance
-- Select your VPC, select the subnet group you created and also the data layer security group
-- Leave everything else and scroll down to Additional configuration
-- Enter initial database name (but i'll personally recommend you connect to it from your webservers and create required databases)
-- Leave everything else, scroll down to Encryption and select the KMS key you created
-- Scroll down and click Create database
-
-![{1D2C2675-1F4A-4E2C-8FF9-ED89510F0C23} png](https://user-images.githubusercontent.com/76074379/124367257-72476f80-dc0a-11eb-9ce7-c0625f28019a.jpg)
 
 ## Step 6: Configure DNS with Route 53
 
-- Create a CNAME record that points www.domain-name.com to the DNS name of your NGINX load balancer
-- Create a CNAME record that points tooling.domain-name.com to the DNS name of your NGINX load balancer
+- Create a CNAME record that points www.domain-name.com to the DNS name of your internal load balancer
+- Create a CNAME record that points tooling.domain-name.com to the DNS name of your internal load balancer
 
 ![16](https://user-images.githubusercontent.com/47898882/132913054-1061b27c-1d27-482a-9e42-bb39fbb038bb.JPG)
 
-### Step 6.1
+- Go to your browser and test the setup using the domian name you used to route traffic from the internal loadbalancer to the webservers tooling & wordpress) in the route53 records.
 
-- Create two configuration files (one for tooling, one for wordpress) for the nginx load balancer and add to a github repo so you can pull the config during a scale out
-- The tooling config file should contain the following settings:
-  ```
-  server {
-    server_name tooling.domain.com;
-    location ~ { # case-sensitive regular expression match
-  		include /etc/nginx/mime.types;
-  	    proxy_redirect      off;
-  	    proxy_set_header    X-Real-IP $remote_addr;
-  	    proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header    Host $http_host;
-  		proxy_pass http://tooling-ALB-DNS;
-  	  }
-  }
-  ```
-  The wordpress config file:
-  ```
-  server {
-    server_name domain.com www.domain.com;
-    location ~ { # case-sensitive regular expression match
-  		include /etc/nginx/mime.types;
-  	    proxy_redirect      off;
-  	    proxy_set_header    X-Real-IP $remote_addr;
-  	    proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header    Host $http_host;
-  		proxy_pass http://wordpress-ALB-DNS;
-  	  }
-  }
-  ```
-  ![{9DA7708A-4274-402A-A491-E96AFEDE7E74} png](https://user-images.githubusercontent.com/76074379/124367321-09142c00-dc0b-11eb-8c41-9d7122a459a2.jpg)
+![{9DA7708A-4274-402A-A491-E96AFEDE7E74} png](https://user-images.githubusercontent.com/76074379/124367321-09142c00-dc0b-11eb-8c41-9d7122a459a2.jpg)
 
 ![{DC558EFC-2080-480A-AD2D-F60E0DDAA084} png](https://user-images.githubusercontent.com/76074379/124367332-1d582900-dc0b-11eb-8d9a-0cdad5d4491a.jpg)
