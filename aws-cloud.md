@@ -124,7 +124,7 @@
 
     sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
     ```
-  - Install amazon efs utils for mounting target on the elastic file system
+  - Install amazon efs utils for mounting target on the elastic file system.
     ```
     git clone https://github.com/aws/efs-utils
 
@@ -149,18 +149,20 @@
   - Select the key pair
   - Select the security group
   - Add resource tags
-  - Click Advanced details, scroll down to the end and configure the user data script to update the yum repo and install nginx
+  - Click Advanced details, scroll down to the end and configure the user data script to install nginx, clone the repo where we have, so we can use the updated configuration for our proxy server. Move the *reverse.conf* file into nginx and write it into the *nginx.conf* file
     ```
-    #!/bin/bash
-    yum update -y
-    mkdir -p /var/www/html
-    echo "hello world from $(hostname)" > /var/www/html/healthstatus
-    yum install nginx -y
-    sed -i 's/\/usr\/share\/nginx\/html/\/var\/www\/html/' /etc/nginx/nginx.conf
+    yum install -y nginx
+    systemctl start nginx
     systemctl enable nginx
-    setenforce 0
-    systemctl restart nginx 
-    yum install -y git
+    git clone https://github.com/Livingstone95/ACS-project-config.git
+    mv /ACS-project-config/reverse.conf /etc/nginx/
+    mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf-distro
+    cd /etc/nginx/
+    touch nginx.conf
+    sed -n 'w nginx.conf' reverse.conf
+    systemctl restart nginx
+    rm -rf reverse.conf
+    rm -rf /ACS-project-config
     ```
 - Configure Target Group (for both Port 80)
   
