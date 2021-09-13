@@ -222,7 +222,7 @@
   - Select the key pair
   - Select the security group
   - Add resource tags
-  - Click Advanced details, scroll down to the end and configure the user data script to update the yum repo and install nginx
+  - Click Advanced details, scroll down to the end and configure the user data script to update the yum repo and install mysql, git & ansible.
     ```
     #!/bin/bash 
     yum install -y mysql 
