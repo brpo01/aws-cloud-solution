@@ -94,16 +94,25 @@
 
 - Provision EC2 Instances for Nginx
   - Create a t2.micro RHEL 8 instance in any of your two public AZs
-  - Install the following packages
+  - Login as root user & install the following packages
     ```
-    epel-release
-    python
-    htop
-    ntp
-    net-tools
-    vim
-    wget
-    telnet
+    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
+    yum install -y dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm
+
+    yum install wget vim python3 telnet htop git mysql net-tools chrony -y
+
+    systemctl start chronyd
+
+    systemctl enable chronyd
+
+    ```
+  - Configure SeLinux Policies for Nginx
+    ```
+    setsebool -P httpd_can_network_connect=1
+    setsebool -P httpd_can_network_connect_db=1
+    setsebool -P httpd_execmem=1
+    setsebool -P httpd_use_nfs 1
     ```
   - Create an AMI from the instance
     - Right click on the instance
