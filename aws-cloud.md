@@ -173,9 +173,7 @@
   - Add Tags
   - Register Nginx instances as targets
  
-- Configure Application Load Balancer (ALB) for Nginx
-  
-Nginx instances should only accept connections coming from the ALB and deny any connections directly to it.
+- Configure Application Load Balancer (ALB) for nginx. Nginx instances should only accept connections coming from the external ALB and deny any connections directly to it.
 
 - Create an internet facing ALB
   - From the EC2 Console, click Load Balancers. 
@@ -189,8 +187,7 @@ Nginx instances should only accept connections coming from the ALB and deny any 
   - Register Nginx instances as targets (if you were not able to configure target group for HTTPS(port 443) in the above step)
   - for health checks, select HTTPS(port 443) and health check path as /healthstatus
   - Click Review and complete the process
-  
-  You may add HTTP Listener and the corresponding Target Group
+  - You may add HTTP Listener and the corresponding Target Group
 
 - Configure Autoscaling for Nginx
   
@@ -210,14 +207,10 @@ Nginx instances should only accept connections coming from the ALB and deny any 
   - Create a t2.micro RHEL 8 instance in any of your two public AZs where you created Nginx instances
   - Install the following packages
     ```
-    epel-release
-    python
-    htop
-    ntp
-    net-tools
-    vim
-    wget
-    telnet
+    #!/bin/bash 
+    yum install -y mysql 
+    yum install -y git tmux 
+    yum install -y ansible
     ```
   - Attach an Elastic IP to each of the servers
   - Create an AMI from the instance
