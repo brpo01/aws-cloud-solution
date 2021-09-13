@@ -60,7 +60,7 @@
   - Select the public subnets and click save
     ![7](https://user-images.githubusercontent.com/47898882/132406134-b94429e1-dae0-443a-a7ef-9a59bbcf2be3.JPG)
 - Create a route table for the private subnets
-  - Repeate the steps above
+  - Repeat the steps above
     ![8](https://user-images.githubusercontent.com/47898882/132406139-57a63672-a49c-4d4e-bc4b-c29074853382.JPG)
 - Create an Internet Gateway, select it and click Actions the click Attach to VPC and attach it to the VPC you created
   ![9](https://user-images.githubusercontent.com/47898882/132406140-90dffb16-b024-4550-8988-23fa783f225c.JPG)
@@ -144,6 +144,7 @@
 - Scroll down and click Create database
 
 ![{1D2C2675-1F4A-4E2C-8FF9-ED89510F0C23} png](https://user-images.githubusercontent.com/76074379/124367257-72476f80-dc0a-11eb-9ce7-c0625f28019a.jpg)
+
 
 ## Step 5: Proceed with Compute Resources
 
@@ -307,6 +308,14 @@
   - Add Tags
   - Register Bastion instances as targets
 
+- Before we create autoscaling for the wordpress & tooling server, let us create databases in the RDS instance. To do this, log into the RDS instance using the bastion host and create the databases. There'll be a prompt for a password, input the password you used in creating the rds instance.
+
+```
+mysql -h acs-database.cdqpbjkethv0.us-east-1.rds.amazonaws.com -u ACSadmin -p
+CREATE DATABASE toolingdb; 
+CREATE DATABASE wordpressdb;
+```
+
 - Configure Autoscaling for Nginx
 
   - Enter the name
@@ -426,8 +435,6 @@ We have to create two launch templates for Wordpress and Tooling respectively.
   - Click Next and add Notifications, create a new SNS topic and enter your email under 'With these recipients'
   - Add Tags
   
-
-
 ## Step 6: Configure DNS with Route 53
 
 - Create a CNAME record that points www.domain-name.com to the DNS name of your internal load balancer
