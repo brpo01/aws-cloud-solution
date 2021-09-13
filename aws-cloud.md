@@ -277,7 +277,15 @@
   - Create a t2.micro RHEL 8 instance in any of your two public AZs where you created Nginx instances
   - Install the following packages
     ```
-    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm yum install -y dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm yum install wget vim python3 telnet htop git mysql net-tools chrony -y systemctl start chronyd systemctl enable chronyd
+    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm 
+    
+    yum install -y dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm 
+    
+    yum install wget vim python3 telnet htop git mysql net-tools chrony -y 
+    
+    systemctl start chronyd 
+    
+    systemctl enable chronyd
     ```
   - Attach an Elastic IP to each of the servers
   - Create an AMI from the instance
