@@ -113,11 +113,21 @@
     setsebool -P httpd_can_network_connect_db=1
     setsebool -P httpd_execmem=1
     setsebool -P httpd_use_nfs 1
+
+  - Set up a self-signed certificate for the nginx instance, so traffic can be forwarded to the webservers in the private subnet using https(443) protocol
     ```
-  - Create an AMI from the instance
-    - Right click on the instance
-    - Select Image and click Create Image
-    - Give the AMI a name
+    sudo mkdir /etc/ssl/private
+
+    sudo chmod 700 /etc/ssl/private
+
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/ACS.key -out /etc/ssl/certs/ACS.crt
+
+    sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+    ```
+- Create an AMI from the instance
+  - Right click on the instance
+  - Select Image and click Create Image
+  - Give the AMI a name
 - Prepare Launch Template for Nginx
   - From EC2 Console, click Launch Templates from the left pane
   - Choose the Nginx AMI
