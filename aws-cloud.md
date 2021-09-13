@@ -316,14 +316,6 @@
   - Add Tags
   - Register Bastion instances as targets
 
-- Before we create autoscaling for the wordpress & tooling server, let us create databases in the RDS instance. To do this, log into the RDS instance using the bastion host and create the databases. There'll be a prompt for a password, input the password you used in creating the rds instance.
-
-```
-mysql -h acs-database.cdqpbjkethv0.us-east-1.rds.amazonaws.com -u ACSadmin -p
-CREATE DATABASE toolingdb; 
-CREATE DATABASE wordpressdb;
-```
-
 - Configure Autoscaling for Nginx
 
   - Enter the name
@@ -430,6 +422,14 @@ We have to create two launch templates for Wordpress and Tooling respectively.
   - Configure routing, select the Tooling target group
   - Register targets (unnecessary if you configured your target group correctly)
   - Click Review and complete the process
+
+- Before we create autoscaling for the wordpress & tooling server, let us create databases in the RDS instance. To do this, log into the RDS instance using the bastion host and create the databases. There'll be a prompt for a password, input the password you used in creating the rds instance.
+
+```
+mysql -h acs-database.cdqpbjkethv0.us-east-1.rds.amazonaws.com -u ACSadmin -p
+CREATE DATABASE toolingdb; 
+CREATE DATABASE wordpressdb;
+```
 
 - Configure Autoscaling for Webservers(Tooling and Wordpress)
 
