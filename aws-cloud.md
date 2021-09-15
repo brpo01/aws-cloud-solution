@@ -475,7 +475,7 @@ systemctl restart httpd
 
 ![16](https://user-images.githubusercontent.com/47898882/132913054-1061b27c-1d27-482a-9e42-bb39fbb038bb.JPG)
 
-- Go to your browser and test the setup using the domian name you used to route traffic from the internal loadbalancer to the webservers tooling & wordpress) in the route53 records.
+- Go to your browser and test the setup using the domain name you used to route traffic from the internal loadbalancer to the webservers tooling & wordpress) in the route53 records.
 
 ![{9DA7708A-4274-402A-A491-E96AFEDE7E74} png](https://user-images.githubusercontent.com/76074379/124367321-09142c00-dc0b-11eb-8c41-9d7122a459a2.jpg)
 
