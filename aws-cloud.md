@@ -57,12 +57,13 @@
 
   ![5](https://user-images.githubusercontent.com/47898882/132263678-43075988-ce72-4f52-837d-68d12214416e.JPG)
 
-  - For the public subnet, enable auto-assign IP by selecting the subnet (after you've created it) and clicking Actions button on the top right, then select Modify auto-assign IP settings and enable it
+  - For the public subnet, enable auto-assign IP by selecting the subnet (after you've created it) and clicking Actions button on the top right, then select Modify auto-assign IP settings and enable it.
+
     ![6](https://user-images.githubusercontent.com/47898882/132263725-42d4b33b-90a6-497a-aed2-0c5a24bdab75.JPG)
 
 - Create a route table and associate it with the public subnets
   - Select the route table you created, click Actions on the top and click 'Edit Subnet associations'
-  - Select the public subnets and click save
+  - Select the public subnets and click save.
 
     ![7](https://user-images.githubusercontent.com/47898882/132406134-b94429e1-dae0-443a-a7ef-9a59bbcf2be3.JPG)
 
