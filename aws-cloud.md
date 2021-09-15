@@ -8,7 +8,9 @@
   - Click 'Add an AWS account' and create a new AWS account from there with name as Dev
   - Invite another AWS account( You can open a totally new AWS account for this)
   - Login and accept the invitation in the new AWS account
+
     ![1](https://user-images.githubusercontent.com/47898882/132263388-5cda326b-452e-44e4-9c3f-dfc651ec410e.JPG)
+
 - Create a free domain name from http://www.freenom.com
 - Create a hosted zone in AWS Route 53
   - Go to the Route 53 Console
@@ -21,7 +23,9 @@
   - Click 'Manage Domain' next to your domain name, and click Management Tools and select Nameservers
   - Click 'Use custom nameservers' radio button
   - Replace the content there with the items you got from Route 53 (one per line)
+
     ![2](https://user-images.githubusercontent.com/47898882/132263392-04fcf914-acf0-425b-8d2d-5647c8e07f60.JPG)
+    
     ![3](https://user-images.githubusercontent.com/47898882/132263394-606cdaa2-b39a-438b-adb2-5971eb340d13.JPG)
 - Ensure to tag all resources you create (Project, Environment, Name etc)
 
