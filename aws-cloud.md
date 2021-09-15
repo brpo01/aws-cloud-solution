@@ -25,7 +25,7 @@
   - Replace the content there with the items you got from Route 53 (one per line)
 
     ![2](https://user-images.githubusercontent.com/47898882/132263392-04fcf914-acf0-425b-8d2d-5647c8e07f60.JPG)
-    
+
     ![3](https://user-images.githubusercontent.com/47898882/132263394-606cdaa2-b39a-438b-adb2-5971eb340d13.JPG)
 - Ensure to tag all resources you create (Project, Environment, Name etc)
 
@@ -50,6 +50,7 @@
 ![tooling_project_15](https://user-images.githubusercontent.com/76074379/123254593-b4064680-d4a3-11eb-8099-329e9fb7c060.png)
 
 - Create a VPC from the VPC Management Console use a large enough CIDR block (/16)
+
   ![4](https://user-images.githubusercontent.com/47898882/132263573-df6447e2-225c-4460-8c0f-e554a99cd047.JPG)
 
 - Create subnets as shown in the diagram above
@@ -62,11 +63,15 @@
 - Create a route table and associate it with the public subnets
   - Select the route table you created, click Actions on the top and click 'Edit Subnet associations'
   - Select the public subnets and click save
+
     ![7](https://user-images.githubusercontent.com/47898882/132406134-b94429e1-dae0-443a-a7ef-9a59bbcf2be3.JPG)
+
 - Create a route table for the private subnets
   - Repeat the steps above
+
     ![8](https://user-images.githubusercontent.com/47898882/132406139-57a63672-a49c-4d4e-bc4b-c29074853382.JPG)
-- Create an Internet Gateway, select it and click Actions the click Attach to VPC and attach it to the VPC you created
+- Create an Internet Gateway, select it and click Actions the click 'Attach to VPC' and attach it to the VPC you created
+
   ![9](https://user-images.githubusercontent.com/47898882/132406140-90dffb16-b024-4550-8988-23fa783f225c.JPG)
 
 - Add a new route to your public subnet route table
@@ -74,10 +79,12 @@
   - For destination, enter 0.0.0.0/0
   - For target, select Internet Gateway and click the Internet Gateway you created
   - Click Save
+
     ![10](https://user-images.githubusercontent.com/47898882/132406923-f919f4ae-f07d-4c7a-8fcf-420341828d53.JPG)
 - Create a NAT Gateway for your private subnets
 - Allocate three Elastic IPs and associate one of them to the NAT Gateway(the other two are for the Bastion Servers)
 - Add a new route to your private route table with destination as 0.0.0.0/0 and target as the NAT Gateway you created
+
   ![11](https://user-images.githubusercontent.com/47898882/132406931-1cad9ba4-7719-466e-9357-799e13c59141.JPG)
 
 - Create a security group for:
@@ -86,6 +93,7 @@
   - Application Load Balancer: ALB should be open to the internet
   - Webservers: Webservers should only be accessible from the Nginx servers
   - Data Layer: This comprises the RDS and EFS servers. Access to RDS should only be from Webservers, while Nginx and Webservers can have access to EFS
+
     ![12](https://user-images.githubusercontent.com/47898882/132406934-14310f3d-d304-46e7-aa6a-00372c489f1a.JPG)
 
 ## Step 3: Setup EFS
@@ -99,9 +107,11 @@
 - Select the VPC you created, select the two AZs and choose the private subnets
 - Select the EFS security group for each AZ
 - Click next, next then create
+
   ![13](https://user-images.githubusercontent.com/47898882/132412797-a9291463-1188-45b9-845d-8525e9f88f58.JPG)
 
 - Create an EFS access point. (Give it a name and leave all other settings as default)
+
   ![14](https://user-images.githubusercontent.com/47898882/132412805-42dc90b3-0d13-48fa-91a8-357396079bf0.JPG)
 
 ## Step 4: Setup RDS
