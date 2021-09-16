@@ -61,17 +61,17 @@
 
     ![6](https://user-images.githubusercontent.com/47898882/132263725-42d4b33b-90a6-497a-aed2-0c5a24bdab75.JPG)
 
-- Create a route table and associate it with the public subnets
+- Create a route table and associate it with the public subnets.
   - Select the route table you created, click Actions on the top and click 'Edit Subnet associations'
   - Select the public subnets and click save.
 
     ![7](https://user-images.githubusercontent.com/47898882/132406134-b94429e1-dae0-443a-a7ef-9a59bbcf2be3.JPG)
 
-- Create a route table for the private subnets
+- Create a route table for the private subnets.
   - Repeat the steps above
 
     ![8](https://user-images.githubusercontent.com/47898882/132406139-57a63672-a49c-4d4e-bc4b-c29074853382.JPG)
-- Create an Internet Gateway, select it and click Actions the click 'Attach to VPC' and attach it to the VPC you created
+- Create an Internet Gateway, select it and click 'Actions', then click 'Attach to VPC' and attach it to the VPC you created.
 
   ![9](https://user-images.githubusercontent.com/47898882/132406140-90dffb16-b024-4550-8988-23fa783f225c.JPG)
 
