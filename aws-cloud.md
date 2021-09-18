@@ -190,7 +190,7 @@
     setsebool -P httpd_can_network_connect_db=1
 
     setsebool -P httpd_execmem=1
-    
+
     setsebool -P httpd_use_nfs 1
     ```
 
@@ -365,8 +365,11 @@ We have to create two launch templates for Wordpress and Tooling respectively.
   - Configure SeLinux Policies for Nginx
     ```
     setsebool -P httpd_can_network_connect=1
+
     setsebool -P httpd_can_network_connect_db=1
+
     setsebool -P httpd_execmem=1
+    
     setsebool -P httpd_use_nfs 1
     ```
 
