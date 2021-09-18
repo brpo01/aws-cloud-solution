@@ -369,7 +369,7 @@ We have to create two launch templates for Wordpress and Tooling respectively.
     setsebool -P httpd_can_network_connect_db=1
 
     setsebool -P httpd_execmem=1
-    
+
     setsebool -P httpd_use_nfs 1
     ```
 
@@ -442,7 +442,7 @@ We have to create two launch templates for Wordpress and Tooling respectively.
   - Register targets (unnecessary if you configured your target group correctly)
   - Click Review and complete the process
 
-- Before we create autoscaling for the wordpress & tooling server, let us create databases in the RDS instance. To do this, log into the RDS instance using the bastion host and create the databases. There'll be a prompt for a password, input the password you used in creating the rds instance.
+- Before we create autoscaling for the wordpress & tooling server, let us create databases in the RDS instance. To do this, ssh into the RDS instance using the bastion host and create the databases. There'll be a prompt for a password, input the password you used in creating the rds instance.
 
 ```
 mysql -h acs-database.cdqpbjkethv0.us-east-1.rds.amazonaws.com -u ACSadmin -p
