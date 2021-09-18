@@ -180,17 +180,18 @@
     systemctl start chronyd
 
     systemctl enable chronyd
-
     ```
 
   - Configure SeLinux Policies for Nginx
 
     ```
     setsebool -P httpd_can_network_connect=1
-    setsebool -P httpd_can_network_connect_db=1
-    setsebool -P httpd_execmem=1
-    setsebool -P httpd_use_nfs 1
 
+    setsebool -P httpd_can_network_connect_db=1
+
+    setsebool -P httpd_execmem=1
+    
+    setsebool -P httpd_use_nfs 1
     ```
 
   - Set up a self-signed certificate for the nginx instance, so traffic can be forwarded to the webservers in the private subnet using https(443) protocol
