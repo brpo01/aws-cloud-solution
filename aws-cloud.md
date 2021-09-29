@@ -496,6 +496,6 @@ systemctl restart httpd
 
 - Go to your browser and test the setup using the domain name you used to route traffic from the internal loadbalancer to the webservers tooling & wordpress) in the route53 records.
 
-![{9DA7708A-4274-402A-A491-E96AFEDE7E74} png](https://user-images.githubusercontent.com/76074379/124367321-09142c00-dc0b-11eb-8c41-9d7122a459a2.jpg)
+![11](https://user-images.githubusercontent.com/47898882/128647143-27482544-9648-44ae-8f46-884ec3c8cfa0.JPG)
 
 ![{DC558EFC-2080-480A-AD2D-F60E0DDAA084} png](https://user-images.githubusercontent.com/76074379/124367332-1d582900-dc0b-11eb-8d9a-0cdad5d4491a.jpg)
