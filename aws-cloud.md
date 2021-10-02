@@ -309,7 +309,7 @@
     - Select Image and click Create Image
     - Give the AMI a name
 
-- Prepare Launch Template for Nginx
+- Prepare Launch Template for Bastion
   - From EC2 Console, click Launch Templates from the left pane
   - Choose the Bastion AMI
   - Select the instance type (t2.micro)
@@ -332,7 +332,7 @@
   - Add Tags
   - Register Bastion instances as targets
 
-- Configure Autoscaling for Nginx
+- Configure Autoscaling for Bastion
 
   - Enter the name
   - Select the Bastion launch template, click Next
@@ -461,7 +461,7 @@ CREATE DATABASE wordpressdb;
   - Click Next and add Notifications, create a new SNS topic and enter your email under 'With these recipients'
   - Add Tags
 
-- Repeat the above process for the tooling server and use the script below as the user data for launching our templates.
+- Repeat the above process for the wordpress server and use the script below as the user data for launching our templates.
 
 ```
 #!/bin/bash
