@@ -3,6 +3,7 @@
 ## Pretasks:
 
 - Configure AWS account and Organization Unit
+
   - Create an AWS account (ignore if you already have one)
   - Create an Organization Unit
   - Click 'Add an AWS account' and create a new AWS account from there with name as Dev
@@ -13,6 +14,7 @@
 
 - Create a free domain name from http://www.freenom.com
 - Create a hosted zone in AWS Route 53
+
   - Go to the Route 53 Console
   - Click 'Create Hosted Zone'
   - For Domain name, enter the domain name you got from freenom
@@ -27,6 +29,7 @@
     ![2](https://user-images.githubusercontent.com/47898882/132263392-04fcf914-acf0-425b-8d2d-5647c8e07f60.JPG)
 
     ![3](https://user-images.githubusercontent.com/47898882/132263394-606cdaa2-b39a-438b-adb2-5971eb340d13.JPG)
+
 - Ensure to tag all resources you create (Project, Environment, Name etc)
 
 ## Step 1: TLS Certificates from Amazon Certificate Manager (ACM)
@@ -62,26 +65,31 @@
     ![6](https://user-images.githubusercontent.com/47898882/132263725-42d4b33b-90a6-497a-aed2-0c5a24bdab75.JPG)
 
 - Create a route table and associate it with the public subnets.
+
   - Select the route table you created, click Actions on the top and click 'Edit Subnet associations'
   - Select the public subnets and click save.
 
     ![7](https://user-images.githubusercontent.com/47898882/132406134-b94429e1-dae0-443a-a7ef-9a59bbcf2be3.JPG)
 
 - Create a route table for the private subnets.
+
   - Repeat the steps above
 
     ![8](https://user-images.githubusercontent.com/47898882/132406139-57a63672-a49c-4d4e-bc4b-c29074853382.JPG)
+
 - Create an Internet Gateway, select it and click 'Actions', then click 'Attach to VPC' and attach it to the VPC you created.
 
   ![9](https://user-images.githubusercontent.com/47898882/132406140-90dffb16-b024-4550-8988-23fa783f225c.JPG)
 
 - Add a new route to your public subnet route table
+
   - Select the route table, click Actions and 'Edit routes'
   - For destination, enter 0.0.0.0/0
   - For target, select Internet Gateway and click the Internet Gateway you created
   - Click Save
 
     ![10](https://user-images.githubusercontent.com/47898882/132406923-f919f4ae-f07d-4c7a-8fcf-420341828d53.JPG)
+
 - Create a NAT Gateway for your private subnets
 - Allocate three Elastic IPs and associate one of them to the NAT Gateway(the other two are for the Bastion Servers)
 - Add a new route to your private route table with destination as 0.0.0.0/0 and target as the NAT Gateway you created
@@ -89,6 +97,7 @@
   ![11](https://user-images.githubusercontent.com/47898882/132406931-1cad9ba4-7719-466e-9357-799e13c59141.JPG)
 
 - Create a security group for:
+
   - Nginx servers: Access to nginx servers should only be from the Application Load Balancer
   - Bastion servers: Access to bastion servers should only be from the IPs of your workstation
   - Application Load Balancer: ALB should be open to the internet
@@ -159,7 +168,6 @@
 - Scroll down and click Create database
 
 ![{1D2C2675-1F4A-4E2C-8FF9-ED89510F0C23} png](https://user-images.githubusercontent.com/76074379/124367257-72476f80-dc0a-11eb-9ce7-c0625f28019a.jpg)
-
 
 ## Step 5: Proceed with Compute Resources
 
@@ -292,17 +300,19 @@
 
   - Create a t2.micro RHEL 8 instance in any of your two public AZs where you created Nginx instances
   - Install the following packages
+
     ```
-    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm 
-    
-    yum install -y dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm 
-    
-    yum install wget vim python3 telnet htop git mysql net-tools chrony -y 
-    
-    systemctl start chronyd 
-    
+    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
+    yum install -y dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm
+
+    yum install wget vim python3 telnet htop git mysql net-tools chrony -y
+
+    systemctl start chronyd
+
     systemctl enable chronyd
     ```
+
   - Attach an Elastic IP to each of the servers
   - Create an AMI from the instance
     - Right click on the instance
@@ -351,6 +361,7 @@ We have to create two launch templates for Wordpress and Tooling respectively.
 
   - Create a t2.micro RHEL 8 instance in any of your two public AZs where you created Nginx instances
   - Install the following packages
+
     ```
     yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 
@@ -362,7 +373,9 @@ We have to create two launch templates for Wordpress and Tooling respectively.
 
     systemctl enable chronyd
     ```
+
   - Configure SeLinux Policies for Nginx
+
     ```
     setsebool -P httpd_can_network_connect=1
 
@@ -382,6 +395,7 @@ We have to create two launch templates for Wordpress and Tooling respectively.
 
     vi /etc/httpd/conf.d/ssl.conf
     ```
+
   - Create an AMI from the instance
     - Right click on the instance
     - Select Image and click Create Image
@@ -399,7 +413,7 @@ We have to create two launch templates for Wordpress and Tooling respectively.
     #!/bin/bash
     mkdir /var/www/
     sudo mount -t efs -o tls,accesspoint=fsap-0f9364679383ffbc0 fs-8b501d3f:/ /var/www/
-    yum install -y httpd 
+    yum install -y httpd
     systemctl start httpd
     systemctl enable httpd
     yum module reset php -y
@@ -415,10 +429,10 @@ We have to create two launch templates for Wordpress and Tooling respectively.
     cp -R /wordpress/* /var/www/html/
     cd /var/www/html/
     touch healthstatus
-    sed -i "s/localhost/acs-database.cdqpbjkethv0.us-east-1.rds.amazonaws.com/g" wp-config.php 
-    sed -i "s/username_here/ACSadmin/g" wp-config.php 
-    sed -i "s/password_here/admin12345/g" wp-config.php 
-    sed -i "s/database_name_here/wordpressdb/g" wp-config.php 
+    sed -i "s/localhost/acs-database.cdqpbjkethv0.us-east-1.rds.amazonaws.com/g" wp-config.php
+    sed -i "s/username_here/ACSadmin/g" wp-config.php
+    sed -i "s/password_here/admin12345/g" wp-config.php
+    sed -i "s/database_name_here/wordpressdb/g" wp-config.php
     chcon -t httpd_sys_rw_content_t /var/www/html/ -R
     systemctl restart httpd
     ```
@@ -446,7 +460,7 @@ We have to create two launch templates for Wordpress and Tooling respectively.
 
 ```
 mysql -h acs-database.cdqpbjkethv0.us-east-1.rds.amazonaws.com -u ACSadmin -p
-CREATE DATABASE toolingdb; 
+CREATE DATABASE toolingdb;
 CREATE DATABASE wordpressdb;
 ```
 
@@ -467,7 +481,7 @@ CREATE DATABASE wordpressdb;
 #!/bin/bash
 mkdir /var/www/
 sudo mount -t efs -o tls,accesspoint=fsap-01c13a4019ca59dbe fs-8b501d3f:/ /var/www/
-yum install -y httpd 
+yum install -y httpd
 systemctl start httpd
 systemctl enable httpd
 yum module reset php -y
@@ -486,7 +500,7 @@ sed -i "s/$db = mysqli_connect('mysql.tooling.svc.cluster.local', 'admin', 'admi
 chcon -t httpd_sys_rw_content_t /var/www/html/ -R
 systemctl restart httpd
 ```
-  
+
 ## Step 6: Configure DNS with Route 53
 
 - Create a CNAME record that points www.domain-name.com to the DNS name of your internal load balancer
@@ -496,7 +510,7 @@ systemctl restart httpd
 
 - Go to your browser and test the setup using the domain name you used to route traffic from the internal loadbalancer to the webservers tooling & wordpress) in the route53 records.
 
-![{9DA7708A-4274-402A-A491-E96AFEDE7E74} png](https://user-images.githubusercontent.com/76074379/124367321-09142c00-dc0b-11eb-8c41-9d7122a459a2.jpg)
+![11](https://user-images.githubusercontent.com/47898882/137776974-2b0c77af-8bcc-4ed4-9576-7c75cd2c5d57.JPG)
 
 ![17](https://user-images.githubusercontent.com/47898882/137776614-f4e0a61a-a4fa-43f8-9610-a19728f7f73f.JPG)
 
